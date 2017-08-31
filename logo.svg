@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="-702.56299"
-     inkscape:cy="723.32757"
+     inkscape:zoom="1.979899"
+     inkscape:cx="-780.35684"
+     inkscape:cy="736.70042"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -35,7 +35,8 @@
      inkscape:window-height="1021"
      inkscape:window-x="0"
      inkscape:window-y="0"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     showguides="false" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -44,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -52,34 +53,38 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
+    <rect
+       style="opacity:1;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.26499999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+       id="rect824"
+       width="39.823158"
+       height="39.823158"
+       x="-239.74075"
+       y="92.405174"
+       inkscape:export-xdpi="81.639999"
+       inkscape:export-ydpi="81.639999" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:6.61458302px;font-family:'Fira Mono Medium for Powerline';-inkscape-font-specification:'Fira Mono Medium for Powerline';letter-spacing:0px;word-spacing:0px;fill:#222831;fill-opacity:1;stroke:#393e46;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
-       x="-205.85527"
-       y="114.95722"
-       id="text817"
-       inkscape:export-xdpi="57.34"
-       inkscape:export-ydpi="57.34"><tspan
-         sodipodi:role="line"
-         id="tspan815"
-         x="-205.85527"
-         y="114.95722"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Fira Mono Medium for Powerline';-inkscape-font-specification:'Fira Mono Medium for Powerline';fill:#222831;stroke:#393e46;stroke-width:0.26458332px;stroke-opacity:1;fill-opacity:1;"
-         dx="0 -0.18898812 -0.75595254 -1.0866818"
-         dy="0 1.5188751e-09 -0.28348213 -0.4252232">UUID</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:6.61458302px;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#eeeeee;fill-opacity:1;stroke:#00adb5;stroke-width:0.26499999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       x="-154.16101"
-       y="163.01578"
+       style="font-style:normal;font-weight:normal;font-size:14.80780602px;line-height:9.254879px;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#eeeeee;fill-opacity:1;stroke:#00adb5;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       x="-226.37508"
+       y="125.88918"
        id="text821"
-       transform="rotate(15)"
        inkscape:export-xdpi="57.34"
        inkscape:export-ydpi="57.34"><tspan
          sodipodi:role="line"
          id="tspan819"
-         x="-154.16101"
-         y="163.01578"
-         style="fill:#eeeeee;fill-opacity:1;stroke:#00adb5;stroke-width:0.26499999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">v4</tspan></text>
+         x="-226.37508"
+         y="125.88918"
+         style="fill:#eeeeee;fill-opacity:1;stroke:#00adb5;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">v4</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.24773884px;line-height:9.5298357px;font-family:'Roboto Mono Medium for Powerline';-inkscape-font-specification:'Roboto Mono Medium for Powerline';letter-spacing:0px;word-spacing:0px;fill:#393e46;fill-opacity:1;stroke:#222831;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       x="-237.8987"
+       y="107.61478"
+       id="text828"><tspan
+         sodipodi:role="line"
+         id="tspan826"
+         x="-237.8987"
+         y="107.61478"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Roboto Mono Medium for Powerline';-inkscape-font-specification:'Roboto Mono Medium for Powerline';fill:#393e46;fill-opacity:1;stroke:#222831;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">UUID</tspan></text>
   </g>
 </svg>
