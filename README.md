@@ -11,4 +11,4 @@ Copy the `uuid.gd` file in your project folder, and preload it using a constant.
 Licensing
 ---------
 
-GPL v2 (See license file for more informations)
+MIT (See license file for more informations)
