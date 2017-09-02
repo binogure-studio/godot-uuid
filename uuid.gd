@@ -3,7 +3,7 @@ const hexBytes = [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x
 static func getRandomInt(min_value, max_value):
   randomize()
 
-  return randi() % max_value + min_value
+  return (randi() % (max_value - min_value)) + min_value
 
 static func randomBytes(n):
   var r = []
