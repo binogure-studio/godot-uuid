@@ -9,7 +9,7 @@ static func randomBytes(n):
   var r = []
 
   for index in range(0, n):
-    r.append(getRandomInt(255))
+    r.append(getRandomInt(256))
 
   return r
 
