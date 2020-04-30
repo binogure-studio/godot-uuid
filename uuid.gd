@@ -1,3 +1,5 @@
+extends Node
+
 static func getRandomInt(max_value):
   randomize()
 
