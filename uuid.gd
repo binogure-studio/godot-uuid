@@ -5,9 +5,6 @@ extends Node
 const MODULO_8_BIT = 256
 
 static func getRandomInt():
-  # Randomize every time to minimize the risk of collisions
-  randomize()
-
   return randi() % MODULO_8_BIT
 
 static func uuidbin():
