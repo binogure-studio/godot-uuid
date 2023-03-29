@@ -41,6 +41,9 @@ func detect_collision():
     index += 1
 
   print('Number of collision: %s' % [ number_of_collision ])
+  if number_of_collision > 0:
+    push_error('Collisions detected, test failed.')
+    OS.set_exit_code(1)
   print('Collision detection done')  
 
 func _init():
