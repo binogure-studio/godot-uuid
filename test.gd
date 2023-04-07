@@ -90,6 +90,48 @@ func benchmark_obj_to_str():
   for uuid in uuids:
     uuid.free()
   print('Benchmark done')
+  
+func benchmark_comp_raw():
+  print('Benchmarking ...')
+  var begin = Time.get_unix_time_from_system()
+
+  for i in range(NUMBER_OF_TESTS):
+    uuid_util.v4() == uuid_util.v4()
+
+  var duration = 1.0 * Time.get_unix_time_from_system() - begin
+
+  print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
+   NUMBER_OF_TESTS / duration,
+   (duration / NUMBER_OF_TESTS) * 1000000,
+   duration
+  ])
+  print('Benchmark done')
+  
+func benchmark_comp_obj():
+  print('Setting up benchmark ...')
+  var uuids = []
+  for i in range(NUMBER_OF_OBJECTS*2):
+    uuids.append(uuid_util.new())
+  print('Benchmarking ...')
+  var begin = Time.get_unix_time_from_system()
+
+  for i in range(NUMBER_OF_OBJECTS):
+    var uuid1 = uuids[i*2]
+    var uuid2 = uuids[i*2+1]
+    
+    uuid1.is_equal(uuid2)
+
+  var duration = 1.0 * Time.get_unix_time_from_system() - begin
+
+  print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
+   NUMBER_OF_TESTS / duration,
+   (duration / NUMBER_OF_TESTS) * 1000000,
+   duration
+  ])
+  print('Cleaning up ...')
+  for uuid in uuids:
+    uuid.free()
+  print('Benchmark done')
 
 func detect_collision():
   print('Detecting collision ...')
@@ -144,5 +186,11 @@ func _init():
   
   print("\n---------------- Obj to string ----------------")
   benchmark_obj_to_str()
+  
+  print("\n----------------  Compare raw  ----------------")
+  benchmark_comp_raw()
+  
+  print("\n----------------  Compare obj  ----------------")
+  benchmark_comp_obj()
   
   quit()

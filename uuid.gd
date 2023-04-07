@@ -108,3 +108,23 @@ func as_string() -> String:
     # node
     _uuid[10], _uuid[11], _uuid[12], _uuid[13], _uuid[14], _uuid[15]
   ]
+  
+func is_equal(other) -> bool:
+  return (
+    _uuid[0 ] == other._uuid[0 ] and \
+    _uuid[1 ] == other._uuid[1 ] and \
+    _uuid[2 ] == other._uuid[2 ] and \
+    _uuid[3 ] == other._uuid[3 ] and \
+    _uuid[4 ] == other._uuid[4 ] and \
+    _uuid[5 ] == other._uuid[5 ] and \
+    _uuid[6 ] == other._uuid[6 ] and \
+    _uuid[7 ] == other._uuid[7 ] and \
+    _uuid[8 ] == other._uuid[8 ] and \
+    _uuid[9 ] == other._uuid[9 ] and \
+    _uuid[10] == other._uuid[10] and \
+    _uuid[11] == other._uuid[11] and \
+    _uuid[12] == other._uuid[12] and \
+    _uuid[13] == other._uuid[13] and \
+    _uuid[14] == other._uuid[14] and \
+    _uuid[15] == other._uuid[15]
+  )
