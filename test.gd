@@ -3,33 +3,101 @@ extends SceneTree
 # To run this script
 # godot -s test.gd
 
-const NUMBER_OF_TEST = 500000
+const NUMBER_OF_TESTS = 500000
+const NUMBER_OF_OBJECTS = 50000  # enough to test and to not run out of memory
 
-const uuid_util = preload('res://uuid.gd')
+var uuid_util = preload('uuid.gd')
 
-func benchmark():
+func benchmark_raw():
   print('Benchmarking ...')
 
-  var begin = OS.get_ticks_msec()
-  var index = 0
+  var uuids := []
+  var begin = Time.get_unix_time_from_system()
 
-  while index < NUMBER_OF_TEST:
+  for i in range(NUMBER_OF_TESTS):
     uuid_util.v4()
-    index += 1
+    
+  var duration = 1.0 * Time.get_unix_time_from_system() - begin
 
-  var duration = 1.0 * OS.get_ticks_msec() - begin
+  print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
+   NUMBER_OF_TESTS / duration,
+   (duration / NUMBER_OF_TESTS) * 1000000,
+   duration
+  ])
+  print('Benchmark done')
+  
+func benchmark_obj():
+  print('Benchmarking ...')
 
-  print('uuid/sec: %.02f (time: %sms)' % [ NUMBER_OF_TEST / duration, duration])
+  var begin = Time.get_unix_time_from_system()
+
+  for i in range(NUMBER_OF_TESTS):
+    uuid_util.new().free()  # immediately freeing does not seem to add much overhead
+
+  var duration = 1.0 * Time.get_unix_time_from_system() - begin
+
+  print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
+   NUMBER_OF_TESTS / duration,
+   (duration / NUMBER_OF_TESTS) * 1000000,
+   duration
+  ])
+  print('Benchmark done')
+  
+func benchmark_obj_to_dict():
+  print('Setting up benchmark ...')
+  var uuids = []
+  for i in range(NUMBER_OF_OBJECTS):
+    uuids.append(uuid_util.new())
+
+  print('Benchmarking ...')
+  var begin = Time.get_unix_time_from_system()
+
+  for uuid in uuids:
+    uuid.as_dict()
+
+  var duration = 1.0 * Time.get_unix_time_from_system() - begin
+
+  print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
+   NUMBER_OF_TESTS / duration,
+   (duration / NUMBER_OF_TESTS) * 1000000,
+   duration
+  ])
+  print('Cleaning up ...')
+  for uuid in uuids:
+    uuid.free()
+  print('Benchmark done')
+  
+func benchmark_obj_to_str():
+  print('Setting up benchmark ...')
+  var uuids = []
+  for i in range(NUMBER_OF_OBJECTS):
+    uuids.append(uuid_util.new())
+
+  print('Benchmarking ...')
+  var begin = Time.get_unix_time_from_system()
+
+  for uuid in uuids:
+    uuid.as_string()
+
+  var duration = 1.0 * Time.get_unix_time_from_system() - begin
+
+  print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
+   NUMBER_OF_TESTS / duration,
+   (duration / NUMBER_OF_TESTS) * 1000000,
+   duration
+  ])
+  print('Cleaning up ...')
+  for uuid in uuids:
+    uuid.free()
   print('Benchmark done')
 
 func detect_collision():
   print('Detecting collision ...')
 
-  var index = 0
   var number_of_collision = 0
   var generated_uuid = {}
 
-  while index < NUMBER_OF_TEST:
+  for i in range(NUMBER_OF_TESTS):
     var key = uuid_util.v4()
 
     if generated_uuid.has(key):
@@ -38,12 +106,43 @@ func detect_collision():
     else:
       generated_uuid[key] = true
 
-    index += 1
+  print('Number of collision: %s' % [ number_of_collision ])
+  print('Collision detection done')  
+  
+func detect_collision_with_rng():
+  print('Detecting collision with rng ...')
+  
+  var rng = RandomNumberGenerator.new()
+
+  var number_of_collision = 0
+  var generated_uuid = {}
+
+  for i in range(NUMBER_OF_TESTS):
+    var key = uuid_util.v4_rng(rng)
+
+    if generated_uuid.has(key):
+      number_of_collision += 1
+
+    else:
+      generated_uuid[key] = true
 
   print('Number of collision: %s' % [ number_of_collision ])
   print('Collision detection done')  
 
 func _init():
   detect_collision()
-  benchmark()
+  detect_collision_with_rng()
+  
+  print("\n----------------      Raw      ----------------")
+  benchmark_raw()
+  
+  print("\n---------------- Simple object ----------------")
+  benchmark_obj()
+  
+  print("\n----------------  Obj to dict  ----------------")
+  benchmark_obj_to_dict()
+  
+  print("\n---------------- Obj to string ----------------")
+  benchmark_obj_to_str()
+  
   quit()
