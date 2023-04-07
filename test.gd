@@ -26,6 +26,25 @@ func benchmark_raw():
   ])
   print('Benchmark done')
   
+func benchmark_raw_rng():
+  print('Benchmarking ...')
+
+  var rng = RandomNumberGenerator.new()
+  var uuids := []
+  var begin = Time.get_unix_time_from_system()
+
+  for i in range(NUMBER_OF_TESTS):
+    uuid_util.v4_rng(rng)
+    
+  var duration = 1.0 * Time.get_unix_time_from_system() - begin
+
+  print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
+   NUMBER_OF_TESTS / duration,
+   (duration / NUMBER_OF_TESTS) * 1000000,
+   duration
+  ])
+  print('Benchmark done')
+  
 func benchmark_obj():
   print('Benchmarking ...')
 
@@ -33,6 +52,24 @@ func benchmark_obj():
 
   for i in range(NUMBER_OF_TESTS):
     uuid_util.new().free()  # immediately freeing does not seem to add much overhead
+
+  var duration = 1.0 * Time.get_unix_time_from_system() - begin
+
+  print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
+   NUMBER_OF_TESTS / duration,
+   (duration / NUMBER_OF_TESTS) * 1000000,
+   duration
+  ])
+  print('Benchmark done')
+  
+func benchmark_obj_rng():
+  print('Benchmarking ...')
+
+  var rng = RandomNumberGenerator.new()
+  var begin = Time.get_unix_time_from_system()
+
+  for i in range(NUMBER_OF_TESTS):
+    uuid_util.new(rng).free()  # immediately freeing does not seem to add much overhead
 
   var duration = 1.0 * Time.get_unix_time_from_system() - begin
 
@@ -187,8 +224,14 @@ func _init():
   print("\n----------------      Raw      ----------------")
   benchmark_raw()
   
+  print("\n---------------- Raw with rng  ----------------")
+  benchmark_raw_rng()
+  
   print("\n---------------- Simple object ----------------")
   benchmark_obj()
+  
+  print("\n---------------- Obj with rng  ----------------")
+  benchmark_obj_rng()
   
   print("\n----------------  Obj to dict  ----------------")
   benchmark_obj_to_dict()
