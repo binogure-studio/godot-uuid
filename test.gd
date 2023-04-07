@@ -92,11 +92,19 @@ func benchmark_obj_to_str():
   print('Benchmark done')
   
 func benchmark_comp_raw():
+  print('Setting up benchmark ...')
+  var uuids = []
+  for i in range(NUMBER_OF_TESTS*2):
+    uuids.append(uuid_util.v4())
   print('Benchmarking ...')
   var begin = Time.get_unix_time_from_system()
 
   for i in range(NUMBER_OF_TESTS):
-    uuid_util.v4() == uuid_util.v4()
+    var uuid1 = uuids[i*2]
+    var uuid2 = uuids[i*2+1]
+    
+    if uuid1 == uuid2:
+      print("uh-oh")
 
   var duration = 1.0 * Time.get_unix_time_from_system() - begin
 
@@ -119,7 +127,8 @@ func benchmark_comp_obj():
     var uuid1 = uuids[i*2]
     var uuid2 = uuids[i*2+1]
     
-    uuid1.is_equal(uuid2)
+    if uuid1.is_equal(uuid2):
+      print("uh-oh")
 
   var duration = 1.0 * Time.get_unix_time_from_system() - begin
 
