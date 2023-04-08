@@ -13,15 +13,19 @@ func benchmark_raw():
 
   var uuids := []
   var begin = Time.get_unix_time_from_system()
-
-  for i in range(NUMBER_OF_TESTS):
+  
+  var test_number := 0
+  while test_number < NUMBER_OF_TESTS:
+    
     uuid_util.v4()
+    
+    test_number += 1
     
   var duration = 1.0 * Time.get_unix_time_from_system() - begin
 
   print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
-   NUMBER_OF_TESTS / duration,
-   (duration / NUMBER_OF_TESTS) * 1000000,
+   test_number / duration,
+   (duration / test_number) * 1000000,
    duration
   ])
   print('Benchmark done')
@@ -33,14 +37,18 @@ func benchmark_raw_rng():
   var uuids := []
   var begin = Time.get_unix_time_from_system()
 
-  for i in range(NUMBER_OF_TESTS):
+  var test_number = 0
+  while test_number < NUMBER_OF_TESTS:
+    
     uuid_util.v4_rng(rng)
     
+    test_number += 1
+  
   var duration = 1.0 * Time.get_unix_time_from_system() - begin
 
   print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
-   NUMBER_OF_TESTS / duration,
-   (duration / NUMBER_OF_TESTS) * 1000000,
+   test_number / duration,
+   (duration / test_number) * 1000000,
    duration
   ])
   print('Benchmark done')
@@ -50,14 +58,18 @@ func benchmark_obj():
 
   var begin = Time.get_unix_time_from_system()
 
-  for i in range(NUMBER_OF_TESTS):
+  var test_number = 0
+  while test_number < NUMBER_OF_TESTS:
+  
     uuid_util.new().free()  # immediately freeing does not seem to add much overhead
+    
+    test_number += 1
 
   var duration = 1.0 * Time.get_unix_time_from_system() - begin
 
   print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
-   NUMBER_OF_TESTS / duration,
-   (duration / NUMBER_OF_TESTS) * 1000000,
+   test_number / duration,
+   (duration / test_number) * 1000000,
    duration
   ])
   print('Benchmark done')
@@ -68,14 +80,18 @@ func benchmark_obj_rng():
   var rng = RandomNumberGenerator.new()
   var begin = Time.get_unix_time_from_system()
 
-  for i in range(NUMBER_OF_TESTS):
+  var test_number = 0
+  while test_number < NUMBER_OF_TESTS:
+    
     uuid_util.new(rng).free()  # immediately freeing does not seem to add much overhead
 
+    test_number += 1
+  
   var duration = 1.0 * Time.get_unix_time_from_system() - begin
 
   print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
-   NUMBER_OF_TESTS / duration,
-   (duration / NUMBER_OF_TESTS) * 1000000,
+   test_number / duration,
+   (duration / test_number) * 1000000,
    duration
   ])
   print('Benchmark done')
@@ -83,8 +99,10 @@ func benchmark_obj_rng():
 func benchmark_obj_to_dict():
   print('Setting up benchmark ...')
   var uuids = []
-  for i in range(NUMBER_OF_OBJECTS):
+  var index = 0
+  while index < NUMBER_OF_OBJECTS:
     uuids.append(uuid_util.new())
+    index += 1
 
   print('Benchmarking ...')
   var begin = Time.get_unix_time_from_system()
@@ -95,8 +113,8 @@ func benchmark_obj_to_dict():
   var duration = 1.0 * Time.get_unix_time_from_system() - begin
 
   print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
-   NUMBER_OF_TESTS / duration,
-   (duration / NUMBER_OF_TESTS) * 1000000,
+   uuids.size() / duration,
+   (duration / uuids.size()) * 1000000,
    duration
   ])
   print('Cleaning up ...')
@@ -107,8 +125,10 @@ func benchmark_obj_to_dict():
 func benchmark_obj_to_str():
   print('Setting up benchmark ...')
   var uuids = []
-  for i in range(NUMBER_OF_OBJECTS):
+  var index = 0
+  while index < NUMBER_OF_OBJECTS:
     uuids.append(uuid_util.new())
+    index += 1
 
   print('Benchmarking ...')
   var begin = Time.get_unix_time_from_system()
@@ -119,8 +139,8 @@ func benchmark_obj_to_str():
   var duration = 1.0 * Time.get_unix_time_from_system() - begin
 
   print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
-   NUMBER_OF_TESTS / duration,
-   (duration / NUMBER_OF_TESTS) * 1000000,
+   uuids.size() / duration,
+   (duration / uuids.size()) * 1000000,
    duration
   ])
   print('Cleaning up ...')
@@ -131,23 +151,35 @@ func benchmark_obj_to_str():
 func benchmark_comp_raw():
   print('Setting up benchmark ...')
   var uuids = []
-  for i in range(NUMBER_OF_TESTS*2):
+  var index = 0
+  while index < NUMBER_OF_OBJECTS * 2:
     uuids.append(uuid_util.v4())
+    index += 1
+  
+  var test = 0
+  var max_tests = uuids.size() - 1
+  var collisions = 0
+
   print('Benchmarking ...')
   var begin = Time.get_unix_time_from_system()
 
-  for i in range(NUMBER_OF_TESTS):
-    var uuid1 = uuids[i*2]
-    var uuid2 = uuids[i*2+1]
+  while test < max_tests:
+    var uuid1 = uuids[test]
+    var uuid2 = uuids[test + 1]
     
     if uuid1 == uuid2:
-      print("uh-oh")
+      collisions += 1
+      print("Test #%s detected collision (%s = %s)" % [test, uuid1, uuid2])
+      
+    test += 1
 
   var duration = 1.0 * Time.get_unix_time_from_system() - begin
 
+  print("%s collisions detected" % collisions)
+  print("%s total comparison operations" % test)
   print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
-   NUMBER_OF_TESTS / duration,
-   (duration / NUMBER_OF_TESTS) * 1000000,
+   test / duration,
+   (duration / test) * 1000000,
    duration
   ])
   print('Benchmark done')
@@ -155,23 +187,35 @@ func benchmark_comp_raw():
 func benchmark_comp_obj():
   print('Setting up benchmark ...')
   var uuids = []
-  for i in range(NUMBER_OF_OBJECTS*2):
+  var index = 0
+  while index < NUMBER_OF_OBJECTS * 2:
     uuids.append(uuid_util.new())
+    index += 1
+    
+  var test = 0
+  var max_tests = uuids.size() - 1
+  var collisions = 0
+    
   print('Benchmarking ...')
   var begin = Time.get_unix_time_from_system()
 
-  for i in range(NUMBER_OF_OBJECTS):
-    var uuid1 = uuids[i*2]
-    var uuid2 = uuids[i*2+1]
+  while test < max_tests:
+    var uuid1 = uuids[test]
+    var uuid2 = uuids[test + 1]
     
     if uuid1.is_equal(uuid2):
-      print("uh-oh")
+      collisions += 1
+      print("Test #%s detected collision (%s = %s)" % [test, uuid1, uuid2])
+      
+    test += 1
 
   var duration = 1.0 * Time.get_unix_time_from_system() - begin
 
+  print("%s collisions detected" % collisions)
+  print("%s total comparison operations" % test)
   print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
-   NUMBER_OF_TESTS / duration,
-   (duration / NUMBER_OF_TESTS) * 1000000,
+   test / duration,
+   (duration / test) * 1000000,
    duration
   ])
   print('Cleaning up ...')
@@ -185,7 +229,8 @@ func detect_collision():
   var number_of_collision = 0
   var generated_uuid = {}
 
-  for i in range(NUMBER_OF_TESTS):
+  var index = 0
+  while index < NUMBER_OF_TESTS:
     var key = uuid_util.v4()
 
     if generated_uuid.has(key):
@@ -193,6 +238,8 @@ func detect_collision():
 
     else:
       generated_uuid[key] = true
+      
+    index += 1
 
   print('Number of collision: %s' % [ number_of_collision ])
   print('Collision detection done')  
@@ -205,7 +252,8 @@ func detect_collision_with_rng():
   var number_of_collision = 0
   var generated_uuid = {}
 
-  for i in range(NUMBER_OF_TESTS):
+  var index = 0
+  while index < NUMBER_OF_TESTS:
     var key = uuid_util.v4_rng(rng)
 
     if generated_uuid.has(key):
@@ -213,6 +261,8 @@ func detect_collision_with_rng():
 
     else:
       generated_uuid[key] = true
+      
+    index += 1
 
   print('Number of collision: %s' % [ number_of_collision ])
   print('Collision detection done')  
