@@ -67,14 +67,8 @@ static func v4_rng(rng: RandomNumberGenerator):
   
 var _uuid: Array
 
-class _sentinel extends RandomNumberGenerator:
-  pass
-
-func _init(rng: RandomNumberGenerator = _sentinel.new()) -> void:
-  if rng is _sentinel:
-    _uuid = uuidbin()
-  else:
-    _uuid = uuidbinrng(rng)
+func _init(rng := RandomNumberGenerator.new()) -> void:
+  _uuid = uuidbinrng(rng)
 
 func as_array() -> Array:
   return _uuid.duplicate()
