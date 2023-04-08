@@ -1,6 +1,6 @@
 # Note: The code might not be as pretty it could be, since it's written
 # in a way that maximizes performance. Methods are inlined and loops are avoided.
-extends Object
+extends Node
 
 const BYTE_MASK: int = 0b11111111
 
@@ -82,7 +82,7 @@ func as_array() -> Array:
 func as_dict(big_endian := true) -> Dictionary:
   if big_endian:
     return {
-      "low"  : (_uuid[0]  << 24) + (_uuid[1]  << 16) + (_uuid[2]  << 8 ) + _uuid[3],
+      "low"  : (_uuid[0]  << 24) + (_uuid[1]  << 16) + (_uuid[2]  << 8 ) +  _uuid[3],
       "mid"  : (_uuid[4]  << 8 ) +  _uuid[5],
       "hi"   : (_uuid[6]  << 8 ) +  _uuid[7],
       "clock": (_uuid[8]  << 8 ) +  _uuid[9],
