@@ -154,17 +154,16 @@ func benchmark_comp_raw():
 
   index = 0
 
-  var number_of_uuids = uuids.size()
   var collisions = 0
 
   print('Benchmarking ...')
   var begin = Time.get_unix_time_from_system()
 
-  while index < (number_of_uuids - 1):
+  while index < (NUMBER_OF_OBJECTS - 1):
     var uuid1 = uuids[index]
     var sub_index = index + 1
 
-    while sub_index < number_of_uuids:
+    while sub_index < NUMBER_OF_OBJECTS:
       if uuid1 == uuids[sub_index]:
         # Don't print anything since it slows down the benchmark
         collisions += 1
@@ -175,10 +174,10 @@ func benchmark_comp_raw():
   var duration = 1.0 * Time.get_unix_time_from_system() - begin
 
   print("%s collisions detected" % [collisions])
-  print("%s total comparison operations" % [number_of_uuids])
+  print("%s total comparison operations" % [NUMBER_OF_OBJECTS])
   print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
-    number_of_uuids / duration,
-    (duration / number_of_uuids) * 1000000,
+    NUMBER_OF_OBJECTS / duration,
+    (duration / NUMBER_OF_OBJECTS) * 1000000,
     duration
   ])
   print('Benchmark done')
@@ -193,17 +192,16 @@ func benchmark_comp_obj():
     index += 1
 
   index = 0
-  var number_of_uuids = uuids.size() - 1
   var collisions = 0
 
   print('Benchmarking ...')
   var begin = Time.get_unix_time_from_system()
 
-  while index < (number_of_uuids - 1):
+  while index < (NUMBER_OF_OBJECTS - 1):
     var uuid1 = uuids[index]
     var sub_index = index + 1
 
-    while sub_index < number_of_uuids:
+    while sub_index < NUMBER_OF_OBJECTS:
       if uuid1.is_equal(uuids[sub_index]):
         # Don't print anything since it slows down the benchmark
         collisions += 1
@@ -214,10 +212,10 @@ func benchmark_comp_obj():
   var duration = 1.0 * Time.get_unix_time_from_system() - begin
 
   print("%s collisions detected" % [collisions])
-  print("%s total comparison operations" % [number_of_uuids])
+  print("%s total comparison operations" % [NUMBER_OF_OBJECTS])
   print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
-    number_of_uuids / duration,
-    (duration / number_of_uuids) * 1000000,
+    NUMBER_OF_OBJECTS / duration,
+    (duration / NUMBER_OF_OBJECTS) * 1000000,
     duration
   ])
   print('Cleaning up ...')
@@ -270,7 +268,25 @@ func detect_collision_with_rng():
   print('Number of collision: %s' % [ number_of_collision ])
   print('Collision detection done')
 
+func test_is_equal():
+  var uuid_1 = uuid_util.new()
+  var uuid_2 = uuid_util.new()
+  var uuid_3 = uuid_util.new()
+
+  uuid_3._uuid = uuid_1.as_array()
+
+  print('Testing is_equal function')
+
+  if uuid_2.is_equal(uuid_1):
+    print('"is_equal" ain\'t working correctly (different uuid are identicals)')
+
+  elif not uuid_3.is_equal(uuid_1):
+    print('"is_equal" ain\'t working correctly (duplicated array not identical)')
+
+  print('Done.')
+
 func _init():
+  test_is_equal()
   detect_collision()
   detect_collision_with_rng()
 
