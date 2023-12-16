@@ -5,7 +5,6 @@ extends Node
 const BYTE_MASK: int = 0b11111111
 
 static func uuidbin():
-  randomize()
   # 16 random bytes with the bytes on index 6 and 8 modified
   return [
     randi() & BYTE_MASK, randi() & BYTE_MASK, randi() & BYTE_MASK, randi() & BYTE_MASK,
@@ -15,7 +14,6 @@ static func uuidbin():
   ]
 
 static func uuidbinrng(rng: RandomNumberGenerator):
-  rng.randomize()
   return [
     rng.randi() & BYTE_MASK, rng.randi() & BYTE_MASK, rng.randi() & BYTE_MASK, rng.randi() & BYTE_MASK,
     rng.randi() & BYTE_MASK, rng.randi() & BYTE_MASK, ((rng.randi() & BYTE_MASK) & 0x0f) | 0x40, rng.randi() & BYTE_MASK,

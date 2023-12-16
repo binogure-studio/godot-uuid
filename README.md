@@ -9,7 +9,7 @@ Usage
 Copy the `uuid.gd` file in your project folder, and preload it using a constant.
 
 ```gdscript
-const uuid_util = preload('res://uuid.gd')
+const uuid_util = preload('res://addons/uuid/uuid.gd')
 
 func _init():
   print(uuid_util.v4())

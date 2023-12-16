@@ -3,10 +3,10 @@ extends SceneTree
 # To run this script
 # godot -s test.gd
 
-const NUMBER_OF_TESTS = 500000
+const NUMBER_OF_TESTS = 1000000
 const NUMBER_OF_OBJECTS = 50000  # enough to test and to not run out of memory
 
-var uuid_util = preload('uuid.gd')
+var uuid_util = preload('addons/uuid/uuid.gd')
 
 func benchmark_raw():
   print('Benchmarking ...')
