@@ -15,7 +15,6 @@ static func uuidbin():
   ]
 
 static func uuidbinrng(rng: RandomNumberGenerator):
-  rng.randomize()
   return [
     rng.randi() & BYTE_MASK, rng.randi() & BYTE_MASK, rng.randi() & BYTE_MASK, rng.randi() & BYTE_MASK,
     rng.randi() & BYTE_MASK, rng.randi() & BYTE_MASK, ((rng.randi() & BYTE_MASK) & 0x0f) | 0x40, rng.randi() & BYTE_MASK,
