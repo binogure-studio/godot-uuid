@@ -3,7 +3,8 @@ extends SceneTree
 # To run this script
 # godot -s test.gd
 
-const NUMBER_OF_TESTS = 1000000
+const NUMBER_TEST_FOR_COLLISION = 100000
+const NUMBER_OF_TESTS = 50000
 const NUMBER_OF_OBJECTS = 50000  # enough to test and to not run out of memory
 
 var uuid_util = preload('addons/uuid/uuid.gd')
@@ -12,8 +13,8 @@ func benchmark_raw():
   print('Benchmarking ...')
 
   var begin = Time.get_unix_time_from_system()
+  var index = 0
 
-  var index := 0
   while index < NUMBER_OF_TESTS:
     uuid_util.v4()
     index += 1
@@ -232,7 +233,7 @@ func detect_collision():
   var generated_uuid = {}
   var index = 0
 
-  while index < NUMBER_OF_TESTS:
+  while index < NUMBER_TEST_FOR_COLLISION:
     var key = uuid_util.v4()
 
     if generated_uuid.has(key):
@@ -254,7 +255,7 @@ func detect_collision_with_rng():
   var generated_uuid = {}
   var index = 0
 
-  while index < NUMBER_OF_TESTS:
+  while index < NUMBER_TEST_FOR_COLLISION:
     var key = uuid_util.v4_rng(rng)
 
     if generated_uuid.has(key):
