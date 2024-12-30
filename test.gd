@@ -7,7 +7,7 @@ const NUMBER_TEST_FOR_COLLISION = 100000
 const NUMBER_OF_TESTS = 50000
 const NUMBER_OF_OBJECTS = 50000  # enough to test and to not run out of memory
 
-var uuid_util = preload('addons/uuid/uuid.gd')
+var UUID = preload('addons/uuid/uuid.gd')
 
 func benchmark_raw():
   print('Benchmarking ...')
@@ -16,7 +16,7 @@ func benchmark_raw():
   var index = 0
 
   while index < NUMBER_OF_TESTS:
-    uuid_util.v4()
+    UUID.v4()
     index += 1
 
   var duration = 1.0 * Time.get_unix_time_from_system() - begin
@@ -36,7 +36,7 @@ func benchmark_raw_rng():
   var index = 0
 
   while index < NUMBER_OF_TESTS:
-    uuid_util.v4_rng(rng)
+    UUID.v4_rng(rng)
     index += 1
 
   var duration = 1.0 * Time.get_unix_time_from_system() - begin
@@ -55,7 +55,7 @@ func benchmark_obj():
   var index = 0
 
   while index < NUMBER_OF_TESTS:
-    uuid_util.new().free()  # immediately freeing does not seem to add much overhead
+    UUID.new().free()  # immediately freeing does not seem to add much overhead
     index += 1
 
   var duration = 1.0 * Time.get_unix_time_from_system() - begin
@@ -75,7 +75,7 @@ func benchmark_obj_rng():
   var index = 0
 
   while index < NUMBER_OF_TESTS:
-    uuid_util.new(rng).free()  # immediately freeing does not seem to add much overhead
+    UUID.new(rng).free()  # immediately freeing does not seem to add much overhead
     index += 1
 
   var duration = 1.0 * Time.get_unix_time_from_system() - begin
@@ -93,7 +93,7 @@ func benchmark_obj_to_dict():
   var index = 0
 
   while index < NUMBER_OF_OBJECTS:
-    uuids.push_back(uuid_util.new())
+    uuids.push_back(UUID.new())
     index += 1
 
   print('Benchmarking ...')
@@ -121,7 +121,7 @@ func benchmark_obj_to_str():
   var index = 0
 
   while index < NUMBER_OF_OBJECTS:
-    uuids.push_back(uuid_util.new())
+    uuids.push_back(UUID.new())
     index += 1
 
   print('Benchmarking ...')
@@ -150,7 +150,7 @@ func benchmark_comp_raw():
   var index = 0
 
   while index < NUMBER_OF_OBJECTS:
-    uuids.push_back(uuid_util.v4())
+    uuids.push_back(UUID.v4())
     index += 1
 
   index = 0
@@ -189,7 +189,7 @@ func benchmark_comp_obj():
   var index = 0
 
   while index < NUMBER_OF_OBJECTS:
-    uuids.push_back(uuid_util.new())
+    uuids.push_back(UUID.new())
     index += 1
 
   index = 0
@@ -234,7 +234,7 @@ func detect_collision():
   var index = 0
 
   while index < NUMBER_TEST_FOR_COLLISION:
-    var key = uuid_util.v4()
+    var key = UUID.v4()
 
     if generated_uuid.has(key):
       number_of_collision += 1
@@ -256,7 +256,7 @@ func detect_collision_with_rng():
   var index = 0
 
   while index < NUMBER_TEST_FOR_COLLISION:
-    var key = uuid_util.v4_rng(rng)
+    var key = UUID.v4_rng(rng)
 
     if generated_uuid.has(key):
       number_of_collision += 1
@@ -270,9 +270,9 @@ func detect_collision_with_rng():
   print('Collision detection done')
 
 func test_is_equal():
-  var uuid_1 = uuid_util.new()
-  var uuid_2 = uuid_util.new()
-  var uuid_3 = uuid_util.new()
+  var uuid_1 = UUID.new()
+  var uuid_2 = UUID.new()
+  var uuid_3 = UUID.new()
 
   uuid_3._uuid = uuid_1.as_array()
 

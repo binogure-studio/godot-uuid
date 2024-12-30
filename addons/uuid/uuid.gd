@@ -65,13 +65,13 @@ static func v4_rng(rng: RandomNumberGenerator):
   
 var _uuid: Array
 
-func _init(rng := RandomNumberGenerator.new()) -> void:
+func _init(rng := RandomNumberGenerator.new()):
   _uuid = uuidbinrng(rng)
 
-func as_array() -> Array:
+func as_array():
   return _uuid.duplicate()
 
-func as_dict(big_endian := true) -> Dictionary:
+func as_dict(big_endian := true):
   if big_endian:
     return {
       "low"  : (_uuid[0]  << 24) + (_uuid[1]  << 16) + (_uuid[2]  << 8 ) +  _uuid[3],
@@ -89,7 +89,7 @@ func as_dict(big_endian := true) -> Dictionary:
       "node" : _uuid[10]         + (_uuid[11] << 8 ) + (_uuid[12] << 16) + (_uuid[13] << 24) + (_uuid[14] << 32) + (_uuid[15] << 40)
     }
     
-func as_string() -> String:
+func as_string():
   return '%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x' % [
     # low
     _uuid[0], _uuid[1], _uuid[2], _uuid[3],
@@ -107,7 +107,7 @@ func as_string() -> String:
     _uuid[10], _uuid[11], _uuid[12], _uuid[13], _uuid[14], _uuid[15]
   ]
   
-func is_equal(other) -> bool:
+func is_equal(other):
   # Godot Engine compares Array recursively
   # There's no need for custom comparison here.
   return _uuid == other._uuid
