@@ -3,23 +3,23 @@ extends SceneTree
 # To run this script
 # godot -s test.gd
 
-const NUMBER_TEST_FOR_COLLISION = 100000
-const NUMBER_OF_TESTS = 50000
-const NUMBER_OF_OBJECTS = 50000  # enough to test and to not run out of memory
+const NUMBER_TEST_FOR_COLLISION: int = 100000
+const NUMBER_OF_TESTS: int = 50000
+const NUMBER_OF_OBJECTS: int = 50000  # enough to test and to not run out of memory
 
-var UUID = preload('addons/uuid/uuid.gd')
+const UUID = preload('addons/uuid/uuid.gd')
 
 func benchmark_raw():
   print('Benchmarking ...')
 
-  var begin = Time.get_unix_time_from_system()
-  var index = 0
+  var begin: int = Time.get_unix_time_from_system()
+  var index: int = 0
 
   while index < NUMBER_OF_TESTS:
     UUID.v4()
     index += 1
 
-  var duration = 1.0 * Time.get_unix_time_from_system() - begin
+  var duration: float = 1.0 * Time.get_unix_time_from_system() - begin
 
   print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
    NUMBER_OF_TESTS / duration,
@@ -31,15 +31,15 @@ func benchmark_raw():
 func benchmark_raw_rng():
   print('Benchmarking ...')
 
-  var rng = RandomNumberGenerator.new()
-  var begin = Time.get_unix_time_from_system()
-  var index = 0
+  var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+  var begin: int = Time.get_unix_time_from_system()
+  var index: int = 0
 
   while index < NUMBER_OF_TESTS:
     UUID.v4_rng(rng)
     index += 1
 
-  var duration = 1.0 * Time.get_unix_time_from_system() - begin
+  var duration: float = 1.0 * Time.get_unix_time_from_system() - begin
 
   print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
    NUMBER_OF_TESTS / duration,
@@ -51,14 +51,14 @@ func benchmark_raw_rng():
 func benchmark_obj():
   print('Benchmarking ...')
 
-  var begin = Time.get_unix_time_from_system()
-  var index = 0
+  var begin: int = Time.get_unix_time_from_system()
+  var index: int = 0
 
   while index < NUMBER_OF_TESTS:
     UUID.new()
     index += 1
 
-  var duration = 1.0 * Time.get_unix_time_from_system() - begin
+  var duration: float = 1.0 * Time.get_unix_time_from_system() - begin
 
   print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
    NUMBER_OF_TESTS / duration,
@@ -70,15 +70,15 @@ func benchmark_obj():
 func benchmark_obj_rng():
   print('Benchmarking ...')
 
-  var rng = RandomNumberGenerator.new()
-  var begin = Time.get_unix_time_from_system()
-  var index = 0
+  var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+  var begin: int = Time.get_unix_time_from_system()
+  var index: int = 0
 
   while index < NUMBER_OF_TESTS:
     UUID.new(rng)
     index += 1
 
-  var duration = 1.0 * Time.get_unix_time_from_system() - begin
+  var duration: float = 1.0 * Time.get_unix_time_from_system() - begin
 
   print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
     NUMBER_OF_TESTS / duration,
@@ -89,20 +89,20 @@ func benchmark_obj_rng():
 
 func benchmark_obj_to_dict():
   print('Setting up benchmark ...')
-  var uuids = []
-  var index = 0
+  var uuids: Array[UUID] = []
+  var index: int = 0
 
   while index < NUMBER_OF_OBJECTS:
     uuids.push_back(UUID.new())
     index += 1
 
   print('Benchmarking ...')
-  var begin = Time.get_unix_time_from_system()
+  var begin: int = Time.get_unix_time_from_system()
 
   for uuid in uuids:
     uuid.as_dict()
 
-  var duration = 1.0 * Time.get_unix_time_from_system() - begin
+  var duration: float = 1.0 * Time.get_unix_time_from_system() - begin
 
   print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
     NUMBER_OF_OBJECTS / duration,
@@ -113,20 +113,20 @@ func benchmark_obj_to_dict():
 
 func benchmark_obj_to_str():
   print('Setting up benchmark ...')
-  var uuids = []
-  var index = 0
+  var uuids: Array[UUID] = []
+  var index: int = 0
 
   while index < NUMBER_OF_OBJECTS:
     uuids.push_back(UUID.new())
     index += 1
 
   print('Benchmarking ...')
-  var begin = Time.get_unix_time_from_system()
+  var begin: int = Time.get_unix_time_from_system()
 
   for uuid in uuids:
     uuid.as_string()
 
-  var duration = 1.0 * Time.get_unix_time_from_system() - begin
+  var duration: float = 1.0 * Time.get_unix_time_from_system() - begin
 
   print('uuid/sec: %.02f   avg time: %.4fus   total time: %.2fs' % [
     NUMBER_OF_OBJECTS / duration,
@@ -138,15 +138,15 @@ func benchmark_obj_to_str():
 
 func benchmark_comp_raw():
   print('Setting up benchmark ...')
-  var uuids = []
-  var index = 0
-  var collisions = 0
+  var uuids: Array[String] = []
+  var index: int = 0
+  var collisions: int = 0
 
   print('Benchmarking ...')
-  var begin = Time.get_unix_time_from_system()
+  var begin: int = Time.get_unix_time_from_system()
 
   while index < NUMBER_OF_OBJECTS:
-    var uuid = UUID.v4()
+    var uuid: String = UUID.v4()
 
     if uuid in uuids:
       collisions += 1
@@ -154,7 +154,7 @@ func benchmark_comp_raw():
     uuids.push_back(uuid)
     index += 1
 
-  var duration = 1.0 * Time.get_unix_time_from_system() - begin
+  var duration: float = 1.0 * Time.get_unix_time_from_system() - begin
 
   print("%s collisions detected" % [collisions])
   print("%s total comparison operations" % [NUMBER_OF_OBJECTS])
@@ -167,15 +167,15 @@ func benchmark_comp_raw():
 
 func benchmark_comp_obj():
   print('Setting up benchmark ...')
-  var uuids = []
-  var index = 0
-  var collisions = 0
+  var uuids: Array[UUID] = []
+  var index: int = 0
+  var collisions: int = 0
 
   print('Benchmarking ...')
-  var begin = Time.get_unix_time_from_system()
+  var begin: int = Time.get_unix_time_from_system()
 
   while index < NUMBER_OF_OBJECTS:
-    var uuid = UUID.new()
+    var uuid: UUID = UUID.new()
 
     if uuids.find_custom(_find_uuid.bind(uuid)) > -1:
       collisions += 1
@@ -184,7 +184,7 @@ func benchmark_comp_obj():
 
     index += 1
 
-  var duration = 1.0 * Time.get_unix_time_from_system() - begin
+  var duration: float = 1.0 * Time.get_unix_time_from_system() - begin
 
   print("%s collisions detected" % [collisions])
   print("%s total comparison operations" % [NUMBER_OF_OBJECTS])
@@ -196,18 +196,18 @@ func benchmark_comp_obj():
 
   print('Benchmark done')
 
-func _find_uuid(object, expected):
+func _find_uuid(object: UUID, expected: UUID) -> bool:
   return expected.is_equal(object)
 
 func detect_collision():
   print('Detecting collision ...')
 
-  var number_of_collision = 0
-  var generated_uuid = {}
-  var index = 0
+  var number_of_collision: int = 0
+  var generated_uuid: Dictionary[String, bool] = {}
+  var index: int = 0
 
   while index < NUMBER_TEST_FOR_COLLISION:
-    var key = UUID.v4()
+    var key: String = UUID.v4()
 
     if generated_uuid.has(key):
       number_of_collision += 1
@@ -223,13 +223,13 @@ func detect_collision():
 func detect_collision_with_rng():
   print('Detecting collision with rng ...')
 
-  var rng = RandomNumberGenerator.new()
-  var number_of_collision = 0
-  var generated_uuid = {}
-  var index = 0
+  var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+  var number_of_collision: int = 0
+  var generated_uuid: Dictionary[String, bool] = {}
+  var index: int = 0
 
   while index < NUMBER_TEST_FOR_COLLISION:
-    var key = UUID.v4_rng(rng)
+    var key: String = UUID.v4_rng(rng)
 
     if generated_uuid.has(key):
       number_of_collision += 1
@@ -243,9 +243,9 @@ func detect_collision_with_rng():
   print('Collision detection done')
 
 func test_is_equal():
-  var uuid_1 = UUID.new()
-  var uuid_2 = UUID.new()
-  var uuid_3 = UUID.new()
+  var uuid_1: UUID = UUID.new()
+  var uuid_2: UUID = UUID.new()
+  var uuid_3: UUID = UUID.new()
 
   uuid_3._uuid = uuid_1.as_array()
 
